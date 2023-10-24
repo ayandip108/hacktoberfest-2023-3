@@ -1,0 +1,54 @@
+import java.util.Arrays;
+
+public class NQueens {
+
+    static int N = 4; // Change N value for different board sizes
+    static int[] board = new int[N];
+
+    static boolean isSafe(int row, int col) {
+        for (int i = 0; i < row; i++) {
+            if (board[i] == col || Math.abs(i - row) == Math.abs(board[i] - col)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    static boolean solveNQueensUtil(int row) {
+        if (row == N) {
+            return true;
+        }
+
+        for (int i = 0; i < N; i++) {
+            if (isSafe(row, i)) {
+                board[row] = i;
+                if (solveNQueensUtil(row + 1)) {
+                    return true;
+                }
+                board[row] = 0;
+            }
+        }
+        return false;
+    }
+
+    static void printSolution() {
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                if (board[i] == j) {
+                    System.out.print("Q ");
+                } else {
+                    System.out.print("- ");
+                }
+            }
+            System.out.println();
+        }
+    }
+
+    public static void main(String[] args) {
+        if (solveNQueensUtil(0)) {
+            System.out.println("Solution does not exist");
+        } else {
+            printSolution();
+        }
+    }
+}
